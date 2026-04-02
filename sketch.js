@@ -89,7 +89,7 @@ function arr_mag(array) {
 }
   
 function setup() {
-  createCanvas(displayHeight*displayDensity(), displayWidth*pixelDensity());
+  createCanvas(500, 300);
   colorMode('hsb');
   frameRate(60);
 
