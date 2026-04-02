@@ -89,11 +89,11 @@ function arr_mag(array) {
 }
   
 function setup() {
-  createCanvas(500, 300);
+  createCanvas(400, 400);
   colorMode('hsb');
   frameRate(60);
 
-  test = new Linkage(createVector(width/2, 0), [200, 125, 125, 50], [0, 0, 0, 0]);
+  test = new Linkage(createVector(width/2, height), [200, 125, 125, 50], [0, 0, 0, 0]);
 }
 
 function draw() {
@@ -103,8 +103,6 @@ function draw() {
   let set_point = createVector(mouseX, mouseY);
   test.update(set_point);
   test.render();
-  
-  circle(set_point.x, set_point.y, 10)
 }
 
 
