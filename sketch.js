@@ -42,13 +42,18 @@ class Linkage {
     let phi_prev = [...this._prevSolution];
     let a = 0.01;
     let iterLimit = 120;
-    let step_size = 0.0001
-    let gradLimit = 0.01
+    let step_size = 0.0001;
+    let gradLimit = 0.01;
+    let rot_lim = 1;
 
     for (let k=0; k < iterLimit; k++) {
       phi = [...phi_prev];
       let grad = this.grad(phi_prev, step_size)
-      for (let i=0; i < phi.length; i++) {phi[i] -= a * exp(-0.2 * k) * grad[i];}
+      for (let i=0; i < phi.length; i++) {
+        phi[i] -= a * exp(-0.2 * k) * grad[i];
+        if (phi[i] > rot_lim+i) {phi[i] = rot_lim;}
+        if (phi[i] < -rot_lim-i) {phi[i] = -rot_lim;}
+      }
       if (arr_mag(grad) <= gradLimit) {break;}
       phi_prev = phi;
     }
@@ -61,6 +66,8 @@ class Linkage {
       this._target = newTarget;
       this._prevSolution = this._solution;
       this._solution = this.gradDescent();
+      console.log(this._solution);
+      
     }
   }
 
@@ -70,8 +77,16 @@ class Linkage {
 
     for (let i=0; i<this._lengths.length; i++) {
       rotate(this._solution[i]);
-      strokeWeight((this._lengths.length-i)*15)
+      //strokeWeight((this._lengths.length-i)*15)
+      stroke(220, 75, 75);
       line(0, 0, 0, this._lengths[i]);
+      circle(0, 0, this._lengths[i]/2)
+      stroke(360);
+      let rect_wid = this._lengths[i]/4;
+      rect(-rect_wid/2, 0, rect_wid, this._lengths[i], this._lengths[i]/20);
+      stroke(47, 100, 68)
+      circle(0, 0, this._lengths[i]/5)
+      noFill()
       translate(0, this._lengths[i]);
       rotate(-1 * this._solution[i]);
     }
@@ -89,22 +104,22 @@ function arr_mag(array) {
 }
   
 function setup() {
-  createCanvas(displayHeight*displayDensity(), displayWidth*pixelDensity());
-  colorMode('hsb');
+  createCanvas(600, 400);
+  colorMode('hsb', 360, 100, 100);
   frameRate(60);
 
-  test = new Linkage(createVector(width/2, 0), [200, 125, 125, 50], [0, 0, 0, 0]);
+  test = new Linkage(createVector(width/2, 0), [100, 80, 50, 20], [0, 0, 0, 0]);
 }
 
 function draw() {
-  background(10);
+  background(0);
   noFill();
-  stroke(220, 75, 75);
+  stroke(214, 76, 45);
   let set_point = createVector(mouseX, mouseY);
   test.update(set_point);
   test.render();
   
-  circle(set_point.x, set_point.y, 10)
+  circle(set_point.x, set_point.y, 5)
 }
 
 
