@@ -111,11 +111,11 @@ function arr_mag(array) {
 }
   
 function setup() {
-  createCanvas(970, 400);
+  createCanvas(1000, 500);
   colorMode('hsb', 360, 100, 100);
   frameRate(60);
 
-  test = new Linkage(createVector(3 * width/5, 0), [160, 110, 80, 30], [0, 0, 0, 0]);
+  test = new Linkage(createVector(2 * width/3, 0), [160, 110, 80, 30], [0, 0, 0, 0]);
 }
 
 function draw() {
